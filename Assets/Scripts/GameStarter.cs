@@ -1,12 +1,21 @@
 using UnityEngine;
+using System.Collections.Generic;
+using System.Collections;
 
 public class GameStarter : MonoBehaviour
 {
     [SerializeField] private Transform _transform;
+    [SerializeField] private EnemyList _enemyList;
+    [SerializeField] private List<Transform> _enemyTransform;
     private int _shipLevel = 1;
     private Player _player;
     private Fire _fire;
-    
+    private AsteroidFactory _asteroidFactory;
+
+    private void Start()
+    {
+        _asteroidFactory = new AsteroidFactory();
+    }
     public void StartShipCreate()
     {
         
@@ -18,8 +27,7 @@ public class GameStarter : MonoBehaviour
             .BoxCollider2D();
 
         _player = ShipCurrent.AddComponent<Player>();
-        _player.AddParametrs
-            (
+        _player.AddParametrs(
             SpaceShip.Hp, 
             SpaceShip.MaxHP, 
             SpaceShip.PointForUpgrade, 
@@ -27,13 +35,22 @@ public class GameStarter : MonoBehaviour
             SpaceShip.Acceleration 
             );
         _fire = ShipCurrent.AddComponent<Fire>();
-        _fire.AddBulletType
-            (
+        _fire.AddBulletType(
             SpaceShip.BuletTypeLevelOne, 
             SpaceShip.BuletTypeLevelTwo, 
             SpaceShip.BuletTypeLevelThree
             );
-        _fire.AddPointForUpgrade(SpaceShip.PointForBulletUpgradeLevelOne, SpaceShip.PointForBulletUpgradeLevelTwo);
+        _fire.AddPointForUpgrade(
+            SpaceShip.PointForBulletUpgradeLevelOne, 
+            SpaceShip.PointForBulletUpgradeLevelTwo
+            );
+    }
+
+    public void CreateEnemy()
+    {
+        var asteroid = _asteroidFactory.Create(EnemyType.SmallAsteroid, _enemyList);
+        //Instantiate(asteroid, _enemyTransform[Random.Range(0, _enemyTransform.Count)]);
+
     }
 
 }

@@ -52,7 +52,8 @@ public class Player : MonoBehaviour
         //Vector2 moveInput = new Vector2(horizontal, vertical);
         //_move = moveInput.normalized * _speed;
         _move.Set(horizontal * speed, vertical * speed, 0.0f);
-        transform.localPosition += _move;
+        transform.position += _move;
+        //transform.position = transform.position + transform.forward + _move;
     }
 
     public void Rotation(Vector3 direction)
